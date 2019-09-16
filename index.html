@@ -5,7 +5,30 @@
 	<meta charset="utf-8">
 </head>
 <body>
-
+	<div id="application">
+	  <input type="text" v-on:input="changeTitle"> <!--VueJS will now create an event for input with v-on directive, and will execute changeTitle when it will be triggered -->
+	  <!--The event that must be triggered is a method called changeTitle-->
+	  <p>
+	    {{ title }}
+	  </p>
+	</div>
 	<script src="vue.js"></script>
+	<script>
+	
+	new Vue({
+			el: "#application",
+		  data:{
+		  	title: "Hello everyone !"
+		  },
+		  //because an event listener is bound with v-on, JS passes automatically an event object					
+		  methods: {
+		  	changeTitle: function(event){
+		  	//this refers directly to data elements
+		    this.title = event.target.value; //the target is the input
+		  	}
+		  }
+		});
+	
+	</script>
 </body>
 </html>
