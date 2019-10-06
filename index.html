@@ -8,8 +8,17 @@
 	<div id="application">
 	  <input type="text" v-on:input="changeTitle"> <!--VueJS will now create an event for input with v-on directive, and will execute changeTitle when it will be triggered -->
 	  <!--The event that must be triggered is a method called changeTitle-->
+	  <h3 v-once>Old title : {{ title }} </h3> <!-- v-once preserves data contents inside tag to be changed, and so it "freezes" data's content (initial value preserved)-->
 	  <p>
-	    {{ title }}
+	    {{ title }} <!-- title is a variable from data, we access it to HTML by {{ }} = interpolation-->
+	  	<!-- However we cannot write interpolation in an HTML attribute : the syntax will be parsed as a normal HTML character -->
+	  	<!--<a href="{{ url }}">Link to Google</a>  this won't work !--> 
+	  	<!--In that case, we must use thr PROPERTY binding DIRECTIVE (instruction) : -->
+	  	<a v-bind:href="url">Link to google</a>
+
+	  	<!-- HTML rendering (be sure that the source is safe, else you can have XSS attacks) -->
+	  	<p>{{ linkHTML }}</p> <!-- won't work : interpolation translates as text -->
+	  	<p v-html="linkHTML"></p> <!-- Will work, but please be careful again what are the HTML sources-->
 	  </p>
 	</div>
 	<script src="vue.js"></script>
@@ -18,16 +27,21 @@
 	new Vue({
 			el: "#application",
 		  data:{
-		  	title: "Hello everyone !"
+		  	title: "Hello everyone !",
+		  	url: "https://google.com",
+			linkHTML: "<a href='https://google.com'>Output of google link</a>"		  	
 		  },
 		  //because an event listener is bound with v-on, JS passes automatically an event object					
 		  methods: {
 		  	changeTitle: function(event){
 		  	//this refers directly to data elements
-		    this.title = event.target.value; //the target is the input
-		  	}
+		    if(event.target.value.length < 10)
+		    	this.title = event.target.value; //the target is the input
+		  	else
+		  		this.title = "Title is too long...:/"
 		  }
-		});
+		}
+	});
 	
 	</script>
 </body>
