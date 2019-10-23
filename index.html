@@ -15,7 +15,6 @@
 	  	<!--<a href="{{ url }}">Link to Google</a>  this won't work !--> 
 	  	<!--In that case, we must use thr PROPERTY binding DIRECTIVE (instruction) : -->
 	  	<a v-bind:href="url">Link to google</a>
-
 	  	<!-- HTML rendering (be sure that the source is safe, else you can have XSS attacks) -->
 	  	<p>{{ linkHTML }}</p> <!-- won't work : interpolation translates as text -->
 	  	<p v-html="linkHTML"></p> <!-- Will work, but please be careful again what are the HTML sources-->
@@ -25,8 +24,10 @@
 	<script>
 	
 	new Vue({
-			el: "#application",
+		  el: "#application",
 		  data:{
+		  	number: 1,
+		  	number2: 2,
 		  	title: "Hello everyone !",
 		  	url: "https://google.com",
 			linkHTML: "<a href='https://google.com'>Output of google link</a>"		  	
