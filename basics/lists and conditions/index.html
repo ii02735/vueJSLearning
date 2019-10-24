@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <section id="application">
+
+        <!-- if conditionnal (classic)-->
+        <!-- conditions REMOVE of ADD elements on the template, and so don't PRESERVE them in the generated HTML-->
+        <p v-if="show">Here is some text that you can't see...</p>
+        <p v-else>Hey you can't see the text haha !</p>
+        <button @click="show = !show">{{ show ? "Hide !" : "Display !" }}</button>
+
+        <!-- HTML5 only (most of web browser) : surrond multiple elements (also possible with simple divs-->
+        <template v-if="templateDisplay"> <!--template tag is not visible in fact in generated HTML from browser (difference from divs)-->
+            <p v-if="templateDisplay">Template content 1</p>
+            <p>Template content 2</p>
+            <p>Template content 3</p>
+        </template>
+
+        <!--But if we want to PRESERVE the element in the HTML, by showing a "display: none"-->
+
+        <p v-show="show">{{ show ? "You can see me !" : "You can't see me ! But I'm still in HTML with display:none !" }}</p>
+
+    </section>
+
+    <script src="../../vue.js"></script>
+    <script>
+        new Vue({
+            el: "#application",
+            data: {
+                show: false,
+                templateDisplay: false
+            },
+            methods: {
+
+            },
+            computed: {
+
+            }
+        });
+    </script>
+</body>
+</html>
