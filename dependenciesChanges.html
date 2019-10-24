@@ -1,0 +1,65 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dependencies changes</title>
+</head>
+<body>
+    <section id="application">
+        <!--two way binding is a process to assign and update at same time data content from event triggering-->
+        <input type="text" v-model="value"> <!--two way binding with v-model Vue attribute-->
+        <!--so with v-model we DISPLAY the value variable, but also update it with typing-->
+        <!--thanks to that we are not needed to create an event function unlike the assignement 2-->
+        <p>{{ value }}</p> 
+        <!-- in index.html we made a function to detect the text length, but here it is more simplified-->
+        <p> {{ value.length > 10 ? "too long..." : value }}</p>
+        {{ testEcho() }} <!-- this method is attached to none event : it will be executed in permnance (after VueJS updates the page, because variables must be updated 
+            for example)-->
+        {{ testEcho2 }} <!-- this function, note the absence of parenthesis, will only be executed WHEN CHANGES WILL BE AFFECTED TO value2-->
+        <input type="text" v-model="value2">
+    </section>
+
+    <script src="vue.js"></script>
+    <script>
+        new Vue({
+            el:"#application",
+            data:{
+                value: '',
+                value2: ''
+            },
+            methods:{
+                testEcho: function(){
+                    console.log("updating... or should I update ?"); //will be fired each time when CHANGES FROM ANYWHERE are detected
+                }
+            },
+            computed:{ //dependent properties management
+                testEcho2: function() //methods that are in computed scope, allow VueJS to check properties/variables that could be changed
+                {                   //so this function will be fired when CHANGES FROM this.value2 are detected
+                    if(this.value2.length > 10)
+                     console.log("Updating at right time !");
+                    else
+                      console.log("Updated at right time when value length is less than 10");
+                }
+            },
+            watch:{ //'it is also possible to detect changes for a specific property with "watch"
+                //first we define the key (variable name) that we want to watch
+                value2: function(value)  //the value of the watched property is automatically passed by VueJS
+                {
+                    console.log("I'm watching value2, its current value is " + value);
+                }
+                /**
+                  * There is some differences : 
+                  *   - If you want to check multiple variables, you must declare ONE KEY FOR EACH variable it is REPETITIVE
+                  *     In computed properties, you are not obliged : in the function scope, you can set multiple properties
+                  *
+                  *     Computed properties have a CACHE system, which have a more OPTIMIZED execution that watched properties have
+                  *     However, Computed properties are SYNCHRONOUS, (callbacks for setTimeout, XHR Requests won't work). 
+                *       But watch works with BOTHS !
+                  */
+            }
+        });
+    </script>
+</body>
+</html>
