@@ -14,7 +14,14 @@
 	  	<!-- However we cannot write interpolation in an HTML attribute : the syntax will be parsed as a normal HTML character -->
 	  	<!--<a href="{{ url }}">Link to Google</a>  this won't work !--> 
 	  	<!--In that case, we must use thr PROPERTY binding DIRECTIVE (instruction) : -->
-	  	<a v-bind:href="url">Link to google</a>
+		<a v-bind:href="url">Link to google</a>
+		
+		<!--writing SHORTCUTS -->
+
+		<a :href="url">Link to google</a> <!--for v-bind:href-->
+
+		<input type="text" @input="changeTitle">
+
 	  	<!-- HTML rendering (be sure that the source is safe, else you can have XSS attacks) -->
 	  	<p>{{ linkHTML }}</p> <!-- won't work : interpolation translates as text -->
 	  	<p v-html="linkHTML"></p> <!-- Will work, but please be careful again what are the HTML sources-->
