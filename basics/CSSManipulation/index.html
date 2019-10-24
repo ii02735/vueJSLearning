@@ -17,8 +17,23 @@
         <!-- we can of course specify a computed property in order to reduce dependencies-->
         <div class="square" @click="makeGreen = !makeGreen" :class="switchToGreen"></div>
         <!--we can also pass simple variables to the class attribute (if the value of the variable refers to a CSS rule)-->
-        <div class="square" :class="color"></div>
-        <input type="text" v-model="color"> <!--we change the color value thanks to double binding process-->
+                                        <!--array syntax is also possible, here at second value, we attach the switchToGreen computed object-->
+        <div class="square" :class="[color, switchToGreen]"></div>
+        <input placeholder="Set VueJS data color value" type="text" v-model="color"> <!--we change the color value thanks to double binding process-->
+        <input placeholder="Set CSS font-weight value" type="text" v-model="fontWeight">
+        <input :placeholder="customHolder" type="text" v-model="fontStyle">
+        <!-- It is also possible to set CSS style dynamically-->
+        <!-- Be careful, we are in fact in JS (because it is Vue), CamelCase is mandatory (no dash)!-->
+        <!-- Because we have set the color style (and not a class) to change it, of course this text can have more color values that the squares-->
+        <p :style="{color: color,fontWeight: fontWeight, fontStyle: fontStyle}">Here is some text</p>
+
+        <p :style="setTextStyle">Here is some text v2</p>
+
+        <input type="text" placeholder="Numeric height value" v-model="customHeight">
+        <!--of course we can merge multiple styles (be sure that you are not modifying the same attribute)-->
+        <div class="square" :style="{ background: color, height: customHeight + 'px' }"></div>
+        <!-- it is more easier to modify values from two binding instead of writing event callbacks !-->
+        <input type="text" v-model="customHolder" placeholder="create your own placeholder for the third input !">
     </div>
     <script src="../../vue.js"></script>
     <script>
@@ -27,7 +42,11 @@
             data: {
                 makeRed: false,
                 makeGreen: false,
-                color: ''
+                color: '',
+                fontWeight: '',
+                fontStyle: '',
+                customHeight: '',
+                customHolder: ''
             },
             methods:{
                 switchToRed: function()
@@ -38,12 +57,17 @@
                     };
                 }
             },
-            computed:{ //remember that the functions under that will only be executed we their properties are changed (unlike unbound methods)
+            computed:{ //remember that the functions under that will only be executed when their properties are changed (unlike unbound methods when
+            //they are not between HTML tags with Vue attribute, cf.dependenciesChanges.html)
                 switchToGreen: function()
                 {
                     return {
                         green: this.makeGreen
                     }
+                },
+                setTextStyle: function()
+                {
+                    return {color: this.color,fontWeight: this.fontWeight, fontStyle: this.fontStyle}; 
                 }
             }
         });
