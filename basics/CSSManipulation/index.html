@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <title>Introduction to VueJS CSS manipulation</title>
+</head>
+<body>
+    <div id="app">
+        <!-- CSS manipulation: when we click, we reverse the makeRed variable, and the class binding tells VueJS when to apply 
+        a class element from the CSS stylesheet => { class_selector: <data bool> }-->
+        <!-- however it can be heavy to write a lot of code in HTML attribute, we can inject a method instead-->
+        <!--<div class="square" @click="makeRed = !makeRed" class="{ red: makeRed }"></div>-->
+        <div class="square" @click="makeRed = !makeRed" :class="switchToRed()"></div>
+        <!-- we can of course specify a computed property in order to reduce dependencies-->
+        <div class="square" @click="makeGreen = !makeGreen" :class="switchToGreen"></div>
+        <!--we can also pass simple variables to the class attribute (if the value of the variable refers to a CSS rule)-->
+        <div class="square" :class="color"></div>
+        <input type="text" v-model="color"> <!--we change the color value thanks to double binding process-->
+    </div>
+    <script src="../../vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                makeRed: false,
+                makeGreen: false,
+                color: ''
+            },
+            methods:{
+                switchToRed: function()
+                {   
+                    //we must return an object, because it is the :class value syntax
+                    return {
+                        red: this.makeRed
+                    };
+                }
+            },
+            computed:{ //remember that the functions under that will only be executed we their properties are changed (unlike unbound methods)
+                switchToGreen: function()
+                {
+                    return {
+                        green: this.makeGreen
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
