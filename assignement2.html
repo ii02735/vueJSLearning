@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assignement 2</title>
+</head>
+<body>
+        <div id="application"> <!--don't forget to scope the vueJS application, and report it with el in Vue instance-->
+        <button v-on:click="alert">Click to alert</button>
+        <input v-on:keydown="printkey" type="text">
+        <input v-on:keydown.enter="printkey" type="text"> <!--value will be taken and go to keyValue when ENTER is detected-->
+        <p>{{ keyValue }}</p>
+        </div>
+        <script src="vue.js"></script>
+        <script>
+            new Vue({
+                el: "#application",
+                data:{
+                    keyValue: ''
+                },
+                methods:{
+                    alert: function()
+                    {
+                        alert("You clicked on it ! Do you ?!")
+                    },
+                    printkey: function(event)
+                    {
+                        this.keyValue = event.target.value;
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

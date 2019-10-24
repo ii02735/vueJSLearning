@@ -13,8 +13,11 @@
 		<!-- it is also possible to pass an argument to the handler / callback -->
 		<!-- we can also pass the event object (specific to Vue -> DON'T override it !) when it is not auto injected (unlike mousemove)-->
 		<button v-on:click="customIncrease(2,$event)">Click to increase custom</button>
-
-		<p>{{ variable }}</p>
+		<!--it is also possible to write JS in attribute-->
+		<button v-on:click="variable+=3">Increase to 3</button>
+		<span>{{ x * 3 }}</span> <!--it is also possible to write operations in interpolation-->
+		<span>{{ x > 500 ? "Hey where are you going ?" : "" }}</span> <!--ternary operations are of course possible-->
+ 		<p>{{ variable }}</p>
 		<p v-on:mousemove="update"> {{ x }} / {{ y }}</br>
 			<span v-on:mousemove="noUpdating">DON'T UPDATE THIS PART !</span></br> <!--prevent updating version 1-->
 			<span v-on:mousemove.stop="">DON'T UPDATE THIS PART 2 !</span> <!--by using an event modifier : version 2-->
@@ -34,6 +37,7 @@
 				variable: 0,
 				x: 0,
 				y: 0,
+				warning: ""
 			},
 			methods:{
 				increase: function()
